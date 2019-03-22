@@ -136,16 +136,17 @@ int main(int argc, char *argv[]) {
             remind_notes(remind, count, notes);
             freenotes(count, notes); // no more needed
         }
-        
+      
         printf("\n");
 
     } else if (clear) { // clear notes
-        clear_notebook(path_to_file, file);
+        clear_notebook(1, path_to_file, file);
         
         // clear important notes too
         important = 1;
         file = open_notebook(book, &path_to_file, important);
-        clear_notebook(path_to_file, file);
+        clear_notebook(1, path_to_file, file);
+        return 0; // skip closing deleted file
     }
     
     fclose(file);

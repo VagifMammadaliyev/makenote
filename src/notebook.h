@@ -9,7 +9,7 @@ typedef struct Note {
     char *text;
 } Note;
 
-FILE *clear_notebook(char *filename, FILE *file);
+FILE *clear_notebook(int clear, char *filename, FILE *file);
 void freenotes(int count, Note **notes);
 void remind_notes(int selector, int count, Note **notes);
 Note **read_notebook(int is_temp, int *out_count, char *filename, FILE *file);

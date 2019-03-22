@@ -55,9 +55,18 @@ char *read_note(FILE *file) {
     return note_text;
 }
 
-FILE *clear_notebook(char *filename, FILE *file) {
+// pass clear as 1 if clear_notebook is called due to '-c' arg
+// note: it aslo might be called from handle_temp_notebook
+FILE *clear_notebook(int clear, char *filename, FILE *file) {
+    FILE *clean_file = NULL;
     fclose(file);
-    FILE* clean_file = fopen(filename, "w");
+
+    if (clear) {
+        remove(filename);
+    } else {
+        clean_file = fopen(filename, "w");
+    }
+
     return clean_file;
 }
 
@@ -72,7 +81,7 @@ void handle_temp_notebook(char* filename, FILE *file) {
         fread(&created_time, sizeof(time_t), 1, file);
     
         if (current_time - created_time > EXPIRE_TIME) { // 10 hours passed
-            file = clear_notebook(filename, file);
+            file = clear_notebook(0, filename, file);
             fwrite(&current_time, sizeof(time_t), 1, file);
         }
     } else {
